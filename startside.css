@@ -1,0 +1,62 @@
+body{
+    background-image: url(https://github.com/Somat-1/finnNavnSenere/blob/main/bakgrunn.gif?raw=true);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1{
+    text-align: center;
+    padding-top: 80px;
+    color:#333333;
+    font-size: 80px;
+    font-family: 'VT323', monospace;
+}
+p{
+    position: flex;
+    text-align: center;
+    color:white;
+    font-size: 30px;
+    font-family: 'VT323', monospace;
+    background: #333333;
+    margin-right: 25vh;
+    margin-left: 25vh;
+}
+
+.play{
+    background-color: #333333;
+    color: #ffffff;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 25px;
+    margin: 4px 2px;
+    font-family: 'VT323', monospace;
+  }
+
+  .back{
+    width: 100%;
+    text-align: center;
+    padding-top: 40px;
+  }
+
+  .backtext{
+    background-color: #333333;
+    color: #E2BFCD;
+    padding: 15px 32px;
+    text-align: center;
+    width: 100%;
+    text-decoration: none;
+    font-size: 25px;
+    margin: 4px 2px;
+    font-family: 'VT323', monospace;
+  }
+
+.button{
+    text-align: center;
+    padding-top: 100px;
+}
+
+.howknapp{
+    text-align: center;
+    padding-top: 60px;
+}

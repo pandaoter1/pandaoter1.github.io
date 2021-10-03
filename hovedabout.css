@@ -1,0 +1,110 @@
+body{
+    background-color: #6cb3b5;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.nav{
+    display: grid;
+    grid-template-columns: 25% 60% 0% 15%;
+    padding-top: 30px;
+    color: white;
+    text-align: center;
+    line-height: 140%;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.navn{
+    text-align: left;
+    padding-left: 70px;
+}
+
+.linker{
+    text-decoration: none;
+    padding-top: 14px;
+}
+
+.linker a{
+    text-decoration: none;
+    color: white;
+    line-height: 160%;
+}
+
+.aboutBilde img{
+    width: 50%;
+    height: 260px;
+}
+
+.aboutgif{
+    text-align: center;
+}
+
+.aboutTekst{
+    color: white;
+    text-align: center;
+    line-height: 140%;
+    padding-top: 5px;
+    font-size: 17px;
+}
+
+.experienceTekst{
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    padding-top: 100px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.experienceUtfyllende{
+    color: white;
+    text-align: center;
+    line-height: 140%;
+    padding-top: 10px;
+    font-size: 17px;
+}
+
+.experienceUtfyllende a{
+    color: white;
+}
+
+.navbar{
+    display: grid;
+    grid-template-columns: 5% 45% 45% 5%;
+    padding-bottom: 20px;
+    padding-top: 70px;
+}
+
+.navbar .left{
+    border-top: rgb(238, 229, 232) 0.5px solid;
+    text-align: left;
+    color: white;
+}
+
+.navbar .right{
+    border-top: rgb(238, 229, 232) 0.5px solid;
+    text-align: right;
+    font-size: 22px;
+    padding-top: 15px;
+}
+
+.navbar .right a{
+    color: white;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 481px){
+    .nav{
+        grid-template-columns: 25% 40% 20% 15%;
+    }
+
+    .ekstern{
+        text-align: center;
+    }
+
+    .linker{
+        text-align: center;
+    }
+}

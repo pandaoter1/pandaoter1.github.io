@@ -1,0 +1,30 @@
+.beats{
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.beats img{
+    width: 200px;
+    height: 200px;
+}
+
+.cd1{
+    text-align: center;
+    padding-top: 80px;
+}
+
+.cd1 img{
+    width: 400px;
+    height: 400px;
+}
+
+.cd2{
+    text-align: center;
+}
+
+.knapp{
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}

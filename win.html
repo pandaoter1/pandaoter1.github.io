@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html dark="true" lang="no">
+<head>
+    <meta charset="utf-8">
+    <title>VICTORY</title>
+ <style>
+    @import url('http://fonts.cdnfonts.com/css/common-pixel');
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    body {
+        display: table;
+        background-image: url(https://github.com/Somat-1/finnNavnSenere/blob/main/win%206.png?raw=true);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .gameOver{
+        color: white;
+        font-size: 40px;
+        font-family: 'Common Pixel', sans-serif;
+    }
+    .container{
+        margin: 50px;
+        width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
+        
+    }
+
+    .pixel{
+        padding: 0;
+        border: none;
+        background: black;
+        border-style: solid;
+        border-color: rgb(255, 255, 255);
+        border-radius: 25px;
+        font-family: 'Common Pixel', sans-serif;
+        width: 142px;
+        height: 31px;
+        font-size: 20px;
+        color: white;
+        cursor: pointer;
+        transition: 0.2s ease-in;
+        
+    }
+    .pixel:hover{
+        color: black;
+        border-style: solid;
+        border-color: rgb(255, 255, 255);
+        border-radius: 25px;
+        background: white;
+        }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+<div class="gameOver">VICTORY</div>
+<br>
+
+<button class="pixel" onclick="MainMenu(onclick)">MAIN MENU</button>
+</div>
+
+<script>
+function MainMenu(onclick){
+window.location.href = "startside.html"
+}
+
+</script>
+</body>
+</html>

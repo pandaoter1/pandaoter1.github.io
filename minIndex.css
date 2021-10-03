@@ -1,0 +1,137 @@
+/*farge koder: svart #333 hvit #fff grønn #315b57 #f1efe5 #E2BFCD* #7d82b8(lilla)*/
+body{
+    background-image: url(space.jpeg);
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.tittel{
+    color: #fff;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.rad1{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 30% 5% 5% 30% 15% ;
+}
+
+.rad1 .rad11{
+    border-radius: 2%;
+    text-align: center;
+    width: 100%;
+    background-color: #f1efe5;
+}
+
+.rad1 .rad11 img{
+    width: 200px;
+    height: 150px;
+    padding-top: 10px;
+}
+
+.rad1 .rad12{
+    border-radius: 2%;
+    text-align: center;
+    width: 100%;
+    background-color: #f1efe5;
+}
+
+.rad1 .rad12 img{
+    width: 150px;
+    height: 150px;
+    padding-top: 10px;
+}
+.rad2{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2.5% 30% 2.5% 30% 2.5% 30% 2.5%;
+    float: center;
+    padding-bottom: 80px;
+}
+
+.rad2 .overskrift{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+}
+
+.rad2 .tekst{
+    text-align: center;
+    line-height: 150%;
+}
+
+.rad2 .rad21{
+    background-color: #b5d3e7;
+    border-radius: 2%;
+    color: #333;
+    text-align: center;
+}
+
+
+.rad2 .rad22{
+    background-color: #3caea3;
+    border-radius: 2%;
+    color: #333;
+    font-family: 'VT323', monospace;
+}
+
+.rad2 .rad22 .overskrift{
+    font-size: 40px;
+}
+
+.rad2 .rad22 .tekst{
+    font-size: 22px;
+}
+
+.rad2 .rad23{
+    background-color: #E2BFCD;
+    border-radius: 2%;
+    color: #333;
+}
+
+
+a{
+    color: #333333;
+    font-size: 25px;
+}
+
+.rad2Tittel{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    padding-top: 40px;
+}
+
+.rad1Tittel{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.login{
+    width: 100%;
+    text-align: center;
+}
+
+.login #t1{
+    width: 150px;
+    height: 25px;
+}
+
+.passwordTitle{
+    text-align: center;
+    font-size: 30px;
+    padding-top: 250px;
+    font-size: 25px;
+}
+
+@media (max-width: 425px){
+
+}
+
+/* ha summary of my projects nede med bilde slider

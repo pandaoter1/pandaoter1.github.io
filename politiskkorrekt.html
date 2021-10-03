@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINN NAVN SENERE</title>
+    <script src="preload.js"></script>
+    <script src="howler.js"></script>
+    <style>
+
+        /* header stilen */
+        header{
+            background-color: transparent;
+            padding: 5vh;
+            font-family: arcadeFont;
+        }
+        .card{
+            border: none !important;
+            cursor: pointer;
+        }
+        .cardName{
+            font-size: 2vh;
+            color: white;
+            width: max-content;
+            position: relative;
+            margin: auto auto;
+        }
+        .cardName::after{
+            content: "";
+            position: absolute;
+            height: 3px;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: turquoise;
+        }
+        #cardCost{
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            background: rgba(177, 177, 86, 0.445);
+            width: max-content;
+            margin: auto auto;
+        }
+        #cardDamage{
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(177, 86, 86, 0.445);
+            width: max-content;
+            margin: auto auto;
+        }
+        /*
+        .flex-container {
+            display: flex;
+        }
+        .flex-container > div {
+            padding: 1vh;
+            width: 20vw;
+        }
+        */
+
+         .health-bar {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200px;
+            height: 20px;
+            padding: 5px;
+            background: black;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 10px;
+            position: absolute;
+        }
+
+        .enemy-health-bar {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200px;
+            height: 20px;
+            padding: 5px;
+            background: black;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 10px;
+            position: absolute;
+        }
+        #playerHP, #enemyHP{
+            color: white;
+        }
+        #playerHP{
+            position: absolute;
+            top: 180%;
+            left: -50%;
+            height: 100%;
+            width: 100%;
+            font-size:20px;
+            font-weight: 400;
+        }
+        #enemyHP{
+            position: absolute;
+            top: 180%;
+            left: 385%;
+            height: 100%;
+            width: 100%;
+            font-size:20px;
+            font-weight: 400;
+        }
+
+
+        .player-bar {
+            background: red;
+            width: 100%;
+            height: 10px;
+            position: relative;
+            transition: width .5s linear;
+        }
+        .enemy-bar {
+            background: red;
+            width: 100%;
+            right: 0;
+            height: 10px;
+            position: relative;
+            transition: width .5s linear;
+        }
+
+        #playerName, #enemyName{
+            font-family: arcadeFont;
+            color: white;
+            position: relative;
+            margin: 5px;
+            font-weight: bold;
+        }
+        #enemyName{
+            text-align: right;
+            left: 38%;
+        }
+        #playerHealthContainer{
+            height: 60px;
+            width: 60px;
+            position: relative;
+            text-align: center;
+        }
+
+        #enemyHealthContainer{
+            height: 60px;
+            width: 60px;
+            position: relative;
+            text-align: center;
+        }
+
+        .healthIcon{
+            position: absolute;
+            top: 100%;
+            left: -100%;
+            height: 100%;
+            width: 100%;
+        }
+        .enemyHealthIcon{
+            position: absolute;
+            top: 100%;
+            left: 335%;
+            height: 100%;
+            width: 100%;
+        }
+        #player-stats{
+            position: absolute;
+            left:10%;
+        }
+        #enemy-stats{
+            position: absolute;
+            right:20%;
+        }
+        #playerChar, #enemyChar{
+            position: absolute;
+        }
+        #playerChar{
+            height: 100px;
+            width: 100px;
+            left: 10%;
+            top: 50%;
+        }
+        #enemyChar{
+            height: 100px;
+            width: 100px;
+            right: 10%;
+            top: 50%;
+        }
+        #fightArena{
+            position: relative;
+            top: 10%;
+            height: 55vh;
+        }
+        .centered{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #cardsContainer{
+            display: flex;
+            flex-direction: row;
+            background-color: transparent;
+            position: fixed;
+            height: 32vh;
+            width: 90vw;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 100%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            padding: 0 50px;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .card{
+            flex-basis: auto;
+            height: 30vh;
+            width: 10vw;
+            padding: 15px;
+            margin: 0 -25px;
+            bottom: 0;
+        }
+    
+        .card:hover{
+            background-color: tomato;
+            transform: translateY(-65px);
+        }
+
+        #staminaBarContainer{
+
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200px;
+            height: 20px;
+            margin-top: 20px;
+            padding:5px;
+            background: black;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 10px;
+            position: absolute;
+        }
+
+        .staminaBar{
+            background: cyan;
+            width: 100%;
+            height: 10px;
+            position: relative;
+            transition: width .5s linear;
+        }
+        .person {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 280px;
+        cursor: pointer;
+        }
+        .container {
+        border-radius: 50%;
+        height: 312px;
+        -webkit-tap-highlight-color: transparent;
+        transform: scale(0.48);
+        transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        width: 400px;
+        }
+        .container:after {
+        background-color: #f2f2f2;
+        content: "";
+        height: 10px;
+        position: absolute;
+        top: 390px;
+        width: 100%;
+        }
+        .container:hover {
+        transform: scale(0.54);
+        }
+        .container-inner {
+        clip-path: path(
+            "M 390,400 C 390,504.9341 304.9341,590 200,590 95.065898,590 10,504.9341 10,400 V 10 H 200 390 Z"
+        );
+        position: relative;
+        transform-origin: 50%;
+        top: -200px;
+        }
+        .circle {
+        background-color: #fee7d3;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 380px;
+        left: 10px;
+        pointer-events: none;
+        position: absolute;
+        top: 210px;
+        width: 380px;
+        }
+        .img {
+        pointer-events: none;
+        position: relative;
+        transform: translateY(50px) scale(1.00);
+        transform-origin: 50% bottom;
+        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .container:hover .img {
+        transform: translateY(0) scale(1.2);
+        }
+        .img1 {
+        left: 30px;
+        top: 164px;
+        width: 340px;
+        }
+        .img2 {
+        left: 100px;
+        top: 250px;
+        width: 200px;
+        }
+        .img3 {
+        left: -36px;
+        top: 160px;
+        width: 466px;
+        }
+
+        .name {
+        color: #f1efeb;
+        font-size: 36px;
+        font-weight: 600;
+        margin-top: 6px;
+        text-align: center;
+        padding-left: 100px;
+        }
+        .charDesc {
+        color: #ff3a3a;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 6px;
+        text-align: center;
+        padding-left: 100px;
+        }
+
+        .person{
+        display: inline-block;
+        }
+
+        #playerImage{
+            height: 400px;
+            transform: scaleX(-1);
+            margin: auto auto;
+            position: absolute;
+            top: -15vh;
+            left: -5vw;
+        }
+        #gameLog{
+            font-family: arcadeFont;
+            color: white;
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            background: transparent;
+            transition: 1s opacity;
+            text-align: center;
+            font-size:32px;
+        }
+        #enemyImage{
+            height: 400px;
+            transform: scaleX(-1);
+            margin: auto auto;
+            position: absolute;
+            top: -15vh;
+            right: 2vw;
+        }
+        #playerAttackImage{
+            position: absolute;
+            right: 0;
+            height: 200px;
+        }
+        #skipTurnBtn{
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            transform: translate(-50%, -50%);
+            border: solid 3px black;
+            cursor: pointer;
+            width: 200px;
+            font-size: 1vw;
+        }
+        #skipTurnBtn:hover{
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            transform: translate(-50%, -50%);
+            border: solid 3px rgb(255, 255, 255);
+            color: white;
+            background-color: black;
+            cursor: pointer;
+            width: 200px;
+            font-size: 1vw;
+        }
+        #intro{
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+        #introImage{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes moveAttack{
+            from{
+                transform:translateX(0%);
+            }
+            to{
+                transform: translateX(70vw);
+            }
+        }
+
+        @keyframes wobble{
+            0%{
+                transform: translateX(0%);
+            }
+            25%{
+                transform: translateX(2%);
+            }
+            50%{
+                transform: translateX(4%);
+            }
+            75%{
+                transform: translateX(2%);
+            }
+            100%{
+                transform: translateX(0%);
+            }
+        }
+        @keyframes retreat{
+            from{
+                transform: translateX(0%);
+            }
+            to{
+                transform: translateX(-50%);
+            }
+        }
+
+        @font-face {
+            font-family: arcadeFont;
+            src: url(ARCADECLASSIC.TTF);
+        }
+
+        body{
+            font-family: arcadeFont;
+        }
+
+
+    </style>
+
+
+</head>
+<body>
+    <!--Introanimasjon av en bombe som sprenger. Brukes for at preload() skal kunne laste opp alle bildene-->
+    <div id="intro">
+        <img id="introImage" src="https://github.com/Somat-1/finnNavnSenere/blob/main/SpeedBoom.gif?raw=true">
+    </div>
+    <!--Karaktervelgeren-->
+    <div id="menu">
+        <div class="person" id="person1"  onclick="charErna();buttonClick.play();battleSong.play()">
+            
+            <div class="container">
+              <div class="container-inner">
+                <img
+                  class="circle"
+                  src="https://github.com/Somat-1/finnNavnSenere/blob/main/norge.png?raw=true"
+                />
+                <img
+                  class="img img2"
+                  src="https://github.com/Somat-1/finnNavnSenere/blob/main/New_Piskel_1.gif?raw=true"
+                />
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="name">Erna Solberg</div>
+            <div class="charDesc">+Health<br>-Damage</div>
+          </div>
+          <div class="person" id="person2" onclick="charTrump();buttonClick.play();battleSong.play()">
+            <div class="container">
+              <div class="container-inner">
+                <img
+                  class="circle"
+                  src="https://github.com/Somat-1/finnNavnSenere/blob/main/usa.png?raw=true"
+                />
+                <img
+                  class="img img3"
+                  src="https://github.com/Somat-1/finnNavnSenere/blob/main/donald.png?raw=true"
+                />
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="name">Donald Trump</div>
+            <div class="charDesc">Normal Health<br>and Damage</div>
+          </div>
+          <div class="person" id="person3" onclick="charHitler();buttonClick.play();battleSong.play()">
+            <div class="container">
+              <div class="container-inner">
+                <img
+                  class="circle"
+                  src="https://github.com/Somat-1/finnNavnSenere/blob/main/nazi.png?raw=true"
+                />
+                <img
+                  class="img img3"
+                  src="https://github.com/Somat-1/finnNavnSenere/blob/main/hitler.png?raw=true"
+                />
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="name">Adolf Hitler</div>
+            <div class="charDesc">-Health<br>+Damage</div>
+          </div>
+      </div>
+      <script>
+        //deklarerer alle variabler som skal brukes i denne delen av koden
+        var enemy;
+        var char;
+        var stats;
+        var menu = document.getElementById("menu");
+        var intro = document.getElementById("intro");
+        menu.style.transform="scale(0)";
+
+        //funksjon som tar bort intro og bytter den ut med karaktervelgeren
+        function gameMenuOn(){
+            intro.remove();
+            menu.style.transform="scale(1)";
+        }
+        //intro fjernes ettr 2.7 sekunder
+    setTimeout(gameMenuOn,2700);
+    
+    //Spiller velger Erna Solberg som karakter
+        function charErna(){
+            //karaktermodell
+            char="https://github.com/Somat-1/finnNavnSenere/blob/main/ernamad.gif?raw=true";
+
+            //variabler i enemy.js
+            stats = ernaStats;
+
+            //bildet til fienden man spiller mot
+            enemy = 'https://github.com/Somat-1/finnNavnSenere/blob/main/Hitler.gif?raw=true';
+            charName = 'ERNA';
+
+            //Alle karakterer har forskjellige fordeler og ulemper
+            //Hvor mye skade som blir mottatt. Erna blir 30% mindre skadet
+            damageMultiplier = 0.7;
+            //Hvor mye skade som blir gitt. Erna gir 10% mindre skade
+            hitMultiplier = 0.9;
+
+            //Fiendens skade og skade mottatt
+            enemyDamageMultiplier = 2;
+            enemyHitMultiplier = 1.5;
+            console.log(ernaStats.damageMultiplier);
+            console.log(char);
+
+            //Fjerner karaktervelgeren etter at man har valgt karakter
+            menu.remove();
+
+            //Endrer navn i HTML fra 'PLAYER NAME' til 'ERNA SOLBERG', sammme gjøres med motstanderen
+            playerName.innerHTML = "ERNA SOLBERG";
+            enemyName.innerHTML = "ADOLF HITLER";
+            
+            //Spillet vises gjennom scale() i css.
+            document.getElementById("game").style.transform = "scale(1)";
+
+            //Spilleren og fienden får bildene sine. Definert i tidligere variabler
+            document.getElementById("playerImage").src = char;
+            document.getElementById("enemyImage").src = enemy;
+
+            //Spillets bakgrunn
+            document.body.style = 'background-image: url(https://github.com/Somat-1/finnNavnSenere/blob/main/Arena%204.gif?raw=true);position: absolute;background-repeat: no-repeat;background-size: cover;height: 100vh;width: 100vw;'
+        }
+
+        //Samme som forrige funksjon, men annen karakter
+        function charHitler(){
+            char="https://github.com/Somat-1/finnNavnSenere/blob/main/Hitler.gif?raw=true";
+            stats = hitlerStats;
+            enemy='https://github.com/Somat-1/finnNavnSenere/blob/main/trump.gif?raw=true';
+          console.log(char);
+          damageMultiplier = 1.5;
+          hitMultiplier = 1.3;
+          enemyDamageMultiplier = 1;
+          enemyHitMultiplier = 1;
+          menu.remove();
+          playerName.innerHTML = "ADOLF HITLER";
+          enemyName.innerHTML = "DONALD TRUMP";
+          document.getElementById("game").style.transform = "scale(1)";
+          document.getElementById("playerImage").src = char;
+          document.getElementById("enemyImage").src = enemy;
+            document.body.style = 'background-image: url(https://github.com/Somat-1/finnNavnSenere/blob/main/Arena%204.gif?raw=true);position: absolute;background-repeat: no-repeat;background-size: cover;height: 100vh;width: 100vw;'
+        }
+        //Samme som forrige funksjon, men annen karakter
+        function charTrump(){
+            char="https://github.com/Somat-1/finnNavnSenere/blob/main/trump.gif?raw=true";
+            stats = trumpStats;
+            enemy="https://github.com/Somat-1/finnNavnSenere/blob/main/ernamad.gif?raw=true";
+          console.log("Gangnam style");
+          damageMultiplier = 1.1;
+          hitMultiplier = 1;
+          enemyDamageMultiplier = 0.7;
+          enemyHitMultiplier = 0.8;
+          menu.remove();
+          playerName.innerHTML = "DONALD TRUMP";
+          enemyName.innerHTML = "ERNA SOLBERG";
+          document.getElementById("game").style.transform = "scale(1)";
+          document.getElementById("playerImage").src = char;
+          document.getElementById("enemyImage").src = enemy;
+          document.body.style = 'background-image: url(https://github.com/Somat-1/finnNavnSenere/blob/main/Arena%204.gif?raw=true);position: absolute;background-repeat: no-repeat;background-size: cover;height: 100vh;width: 100vw;'
+        }
+      </script>
+      <script src="enemy.js"></script>
+<div id="game">
+
+
+    <header class="flex-container">
+
+            <div id="player-stats">
+
+                <div id="playerHealthContainer">
+                    <img class="healthIcon" src="https://github.com/Somat-1/finnNavnSenere/blob/main/healthIcon.png?raw=true" height="60vh" width="60vh">
+                    <div class="centered" id="playerHP"> 100</div>
+                </div>
+
+                <div id="playerName">
+                    PLAYER NAME
+                </div>
+
+                <div class="health-bar">
+                    <div class="player-bar" id="player-health-bar"></div>
+                </div>
+
+                <div id="staminaBarContainer">
+                    <div class="staminaBar" id="staminaBar"></div>
+                </div>
+
+                <!--Knapp som gir tilbake stamina i bytte mot skade tatt-->
+                <button id="skipTurnBtn" onclick="skipTurn()"> SKIP  TURN</button>
+            </div>
+
+    <div id="enemy-stats">
+            <div id="enemyHealthContainer">
+                <img class="enemyHealthIcon" src="https://github.com/Somat-1/finnNavnSenere/blob/main/healthIcon.png?raw=true" height="60vh" width="60vh">
+                <div class="centered" id="enemyHP">100</div>
+            </div>
+            <div id="enemyName">
+                ENEMY NAME
+            </div>
+            <div class="enemy-health-bar">
+                <div class="enemy-bar" id="enemy-health-bar"></div>
+            </div>
+    </div>
+
+
+    
+        
+    </header>
+
+    <div id="gameLog"></div>
+
+    <div id="fightArena">
+        <div id="playerChar">
+            <img id="playerImage" src="">
+            <img id="playerAttackImage" src="">
+        </div>
+        <div id="enemyChar">
+            <img id="enemyImage" src="">
+        </div>
+
+    </div>
+
+
+    
+
+    <div id="cardsContainer" ></div>
+
+
+</div>
+</body>
+
+
+<script src="enemy.js"></script>
+<script>
+    //På starten av spillet vil bare karaktervelgeren vises. Frem til man trykker på en karakter vil document.getElementById("game").style.transform = "scale(0)";
+    document.getElementById("game").style.transform = "scale(0)";
+    document.body.style = ' align-items: center;display: flex;font-family: arcadeFont, monospace;flex-wrap: wrap;justify-content: center;height: 100vh;margin: 0;background-color: #333333;"'
+    
+    //Delay til angrepsanimasjonen som vises hver gang man bruker et kort
+    var attackAnimation = document.getElementById('playerAttackImage');
+    //Tilfeldig animasjonsdelay
+    var animationDelay = Math.floor(Math.random() * 1000);
+    //Hvor langt tid det vil ta fra playerHP = 0 til at dødsanimasjonen spilles
+    var deathInterval = 1000;
+
+    //Variabler som brukes i koden
+    var isAttacking;
+    var damageMultiplier;
+    var hitMultiplier;
+    var enemyDamageMultiplier;
+    var enemyHitMultiplier;
+
+    function main(){
+        isAttacking = true;
+    }
+    main();
+    
+    //Object for kortene. Alle kort bruker forskjellig antall stamina og skader forskjellig. Bildene og animasjonene er også forskjellige
+    var playingCards = [{
+        cardNumber: 000,
+        cardName: 'PUNCH ATTACK',
+        cardCost: 10,
+        cardDamage: 10,
+        cardText: "The most basic and common attack you'll find, the thing it all starts with",
+        cardAttack: "https://github.com/Somat-1/finnNavnSenere/blob/main/punchAttack.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/PunchAttack.png?raw=true"
+    },{
+        cardNumber: 001,
+        cardName: 'FORGIVING HAND',
+        cardCost: 10,
+        cardDamage:-20,
+        cardText: "Feeling cocky eey? Use this to give your enemy a second chance",
+        cardAttack: "https://github.com/Somat-1/finnNavnSenere/blob/main/ForgivingHand.gif?raw=true",
+        cardBG:"https://github.com/Somat-1/finnNavnSenere/blob/main/forgivingHand800.png?raw=true"
+
+        
+    },{
+        cardNumber: 002,
+        cardName: 'START A RIOT',
+        cardCost: 20,
+        cardDamage: 15,
+        cardText: "Classic one isn't it?",
+        cardAttack: "https://github.com/Somat-1/finnNavnSenere/blob/main/riot.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/StartingARiot.png?raw=true"
+
+    },{
+        cardNumber: 003,
+        cardName: 'ONE PUNCH',
+        cardCost: 50,
+        cardDamage: 50,
+        cardText: "A fierce attack",
+        cardAttack: "https://github.com/Somat-1/finnNavnSenere/blob/main/onePunch.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/OnePunch.png?raw=true"
+
+    },{
+        cardNumber: 004,
+        cardName: 'FART ATTACK',
+        cardCost: 25,
+        cardDamage: 30,
+        cardText: "I'm out of words for this one",
+        cardAttack: "https://github.com/Somat-1/finnNavnSenere/blob/main/fart.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/fartAttack.png?raw=true"
+    },{
+        cardNumber: 005,
+        cardName: 'SUPER SONIC SCREAM',
+        cardCost: 20,
+        cardDamage: 25,
+        cardText: "Use that lung capacity",
+        cardAttack: "https://github.com/Somat-1/finnNavnSenere/blob/main/sonic.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/superSonicScream.png?raw=true"
+    },{
+        cardNumber: 006,
+        cardName: 'HYPER BEAM',
+        cardCost: 30,
+        cardDamage: 25,
+        cardAttack:"https://github.com/Somat-1/finnNavnSenere/blob/main/hyperBeam.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/hyperBeam.png?raw=true"
+    },{
+        cardNumber: 007,
+        cardName: 'BETA STAMINA CHARGE',
+        cardCost: -20,
+        cardDamage: 0,
+        cardText: "Use me to refill that sweet mana of yours",
+        //Noen kort har recharge i stedet for Attack, dette betyr at en annen animasjon spilles
+        cardRecharge:"https://github.com/Somat-1/finnNavnSenere/blob/main/betaCharge.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/betaCharge.png?raw=true"
+    },{
+        cardNumber: 8,
+        cardName: 'SUPER STAMINA CHARGE',
+        cardCost: -30,
+        cardDamage: 0,
+        cardText: "Use me to refill that sweet mana of yours",
+        cardRecharge: "https://github.com/Somat-1/finnNavnSenere/blob/main/betaCharge.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/superStamina.png?raw=true"
+    },{
+        cardNumber: 9,
+        cardName: 'CAPITAL STORMING',
+        cardCost: 40,
+        cardDamage: 30,
+        cardText: "History repeats itself huh?",
+        cardAttack: 'https://github.com/Somat-1/finnNavnSenere/blob/main/capital%20storming.gif?raw=true',
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/capitalStorming.png?raw=true"
+    },{
+        cardNumber: 010,
+        cardName: 'NUCLEAR STRIKE',
+        cardCost: 30,
+        cardDamage: 40,
+        cardText: "History repeats itself huh?",
+        cardAttack: "https://github.com/Somat-1/finnNavnSenere/blob/main/Nuke.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/nuke.png?raw=true"
+    },{
+        cardNumber: 011,
+        cardName: 'CAPITAL STORMING',
+        cardCost: 10,
+        cardDamage: 30,
+        cardText: "History repeats itself huh?",
+        cardAttack: 'https://github.com/Somat-1/finnNavnSenere/blob/main/capital%20storming.gif?raw=true',
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/capitalStorming.png?raw=true"
+    },{
+        cardNumber: 012,
+        cardName: 'TACTICAL RETRAT',
+        cardCost: -50,
+        cardDamage: -10,
+        cardText: "Heals your enemy, but refills your stamina",
+        cardRecharge: "https://github.com/Somat-1/finnNavnSenere/blob/main/retreat.gif?raw=true",
+        cardBG: "https://github.com/Somat-1/finnNavnSenere/blob/main/tactical_retreat.png?raw=true"
+    }];
+
+
+
+
+   
+    
+    //test funksjon til å teste om health bars funker
+    function test(){
+        debugger;
+        var damage = prompt('damage');
+        hit(damage);
+        enemyHit(damage);
+    }
+
+    //Hvor mye liv spilleren og fienden har
+    var playerHP = 100;
+    var enemyHP = 100;
+    
+    var playerHealthBar = document.getElementById('player-health-bar');
+
+    //
+    function hit(damage){
+        //Kalkulerer nye playerHP etter damage
+        playerHP = playerHP-damage;
+        //Gjelder hvis spilleren har mindre enn eller 0HP (død)
+        if(playerHP<=0){
+            //Endrer HTML til #playerHP og playerHealthBar
+            playerHealthBar.style.width = 0+'%';
+            document.getElementById('playerHP').innerHTML = 0;
+            
+            //Lydavspilling med Howler.js (library)
+            waaDeath.play();
+
+            //Dødsanimasjon
+            document.getElementById('playerImage').src="https://github.com/Somat-1/finnNavnSenere/blob/main/death.gif?raw=true";
+            setTimeout(lose,deathInterval);
+        }else{
+            //Samme som forrige bare at det brukes playerHP i stedet for 0
+            playerHealthBar.style.width = playerHP+'%';
+            var health = playerHealthBar.style.width;
+            document.getElementById('playerHP').innerHTML = health;
+        }
+        //funksjoner som skjekker at health og stamina ikke går over 100
+        checkEnemyHealth();
+        checkPlayerStamina();
+
+    }
+
+    
+
+    var enemyHealthBar = document.getElementById('enemy-health-bar');
+    var playerStaminaBar = document.getElementById('staminaBar');
+    var playerStamina = 100;
+
+    //Funksjon som kalkulerer skade gitt og tatt med parameterne damage og cost
+    function enemyHit(damage, cost){
+        debugger;
+        //Damage = seg selv * variablen hitMultiplier som er definert i de forskjellige karakterfunksjonene i starten av koden (angår hvor mye skade som gis)
+        var damage = damage*hitMultiplier;
+        //Kalkulerer fiendens nye liv
+        enemyHP = enemyHP-damage;
+        //Kalkulerer spillerens nye stamina med hensyn til hvor mye stamina kortet kostet
+        playerStamina = playerStamina-cost;
+        //Endrer staminabar
+        playerStaminaBar.style.width = playerStamina+'%';
+    if(isAttacking=false){
+        return;
+    }
+    else{
+        if(playerStamina>0){
+            //Hvis fienden er død
+            if(enemyHP<=0){
+            
+            //Fiendens liv vises som 0 for å forhindre negative tall
+            enemyHealthBar.style.width = 0+'%';
+            document.getElementById('enemyHP').innerHTML = 0;
+            //Dødsanimasjon
+            document.getElementById('enemyImage').src="https://github.com/Somat-1/finnNavnSenere/blob/main/death.gif?raw=true";
+            
+            //Lyd som spilles av når fienden dør
+            robDeath.play();
+            setTimeout(win,deathInterval);
+            //Hvis fienden har mer enn 0 liv
+            }else{
+                //Helathbar kalkuleres på samme måte som forrige if setning, men det brukes enemyHP i stedet for 0
+                enemyHealthBar.style.width = enemyHP+'%';
+                //Healthbarens bredde vises som tall i #enemyHP
+                var health = enemyHealthBar.style.width;
+                document.getElementById('enemyHP').innerHTML = health;
+
+                //Spilleren skades for et tilfeldig nummer mellom 0 og 50 multiplisert med damageMultiplier (definert tidligere. Handler om hvor mye skade spilleren tar)
+                var HitDamage =Math.floor(Math.floor(Math.random() * 50)*damageMultiplier);
+                //Hit funksjon kjøres med verdien til HitDamage byttet ut med parameteret damage
+                hit(HitDamage);
+                isAttacking=false;
+            }
+        }
+    }
+        //funksjoner som skjekker at health og stamina ikke går over 100
+        checkEnemyHealth();
+        checkPlayerStamina();
+    }
+    //Game log mellom healthbar som endres i forhold til om man har stamina eller ikke
+    function gameLogFade(){
+        document.getElementById('gameLog').innerHTML = '';
+    }
+
+    //Funksjonen til å printe kort
+    //Printer et tilfeldig kort fra objektet playingCards
+    function printCard(randomCardNumber){
+
+        var card =
+        '<div class="card" style="background:url('+playingCards[randomCardNumber].cardBG+');background-repeat:no-repeat;background-size:cover;" onclick="playCard(this,'+randomCardNumber+
+        ')" ></div>';
+        return card;
+       
+    }
+    //Funksjonen som printer alle korta
+    function printCards(){
+
+        //Printer 5 kort om gangen tilfeldig
+        for(var i= 0 ; i<5 ; i++){
+           var randomCardNumber = Math.floor(Math.random() * 11);
+           document.getElementById('cardsContainer').innerHTML += printCard(randomCardNumber);
+        }
+    }
+
+
+    //Funksjonen som utløses ved at spilleren velger og trykker på et av kortene
+    function playCard(el,index){
+        var randomCardNumber = Math.floor(Math.random() * 13);
+        //Enemy blir skadet for tallet som står i playingCards.cardDamage
+        var enemyHitDamage = playingCards[index].cardDamage;
+        //Stamina tekkes i forhold til tallet som står i playingCards.cardCost
+        var cardCost = playingCards[index].cardCost;
+        //Kortets graffikk velges i forhold til det som står i playingCards.cardBG
+        var cardBG = playingCards[index].cardBG;
+
+        //Hvis kortet som trekkes har cardRecharge vil det spilles en annen animasjon fra vanlig angrep
+        if(playingCards[index].cardRecharge!=undefined){
+            document.getElementById('playerImage').src=playingCards[index].cardRecharge; //Karaktermodellen byttes kort ut med et annet bilde som illustrerer kortet.
+            recharge.play();
+            //Modellen er tilbake etter 2,5 sekunder
+            setTimeout(removeRecharge,2500);
+            enemyHit(enemyHitDamage, cardCost);
+            el.remove();
+            document.getElementById('cardsContainer').innerHTML += printCard(randomCardNumber);
+            document.getElementsByClassName('card').style.background = 'url("'+cardBG+'");';
+            checkEnemyHealth();
+            checkPlayerStamina();
+        }
+       /* else if(playingCards[index].cardRetreat===1){
+            document.getElementById('playerImage').style = 'height: 400px;margin: auto auto;position: absolute;top: -15vh;left: -5vw; animation: retreat 2s linear';
+            enemyHit(enemyHitDamage, cardCost);
+            el.remove();
+            document.getElementById('cardsContainer').innerHTML += printCard(randomCardNumber);
+            document.getElementsByClassName('card').style.background = 'url("'+cardBG+'");'
+            setTimeout(removeRetreat,2000);
+        }*/
+        else if(playerStamina>=playingCards[index].cardCost){
+        attackAnimation.src = playingCards[index].cardAttack;
+        attackAnimation.style = 'position: absolute;left: 0;top:-10vh;height: 400px;animation: moveAttack 1s linear;'
+        enemyHit(enemyHitDamage, cardCost);
+        cardFly.play();
+        setTimeout(enemyHitEffect, 0);
+       setTimeout(removeAttack, 1000);
+       el.remove();
+        document.getElementById('cardsContainer').innerHTML += printCard(randomCardNumber);
+        document.getElementsByClassName('card').style.background = 'url("'+cardBG+'");';
+        checkEnemyHealth();
+        checkPlayerStamina();
+        }
+            else{
+            document.getElementById('gameLog').innerHTML = 'YOU NEED TO REFILL YOUR STAMINA<br>SKIP TURN TO AUTOMATICALLY REFILL';
+            setTimeout(gameLogFade, 2000);
+            checkEnemyHealth();
+            checkPlayerStamina();
+        }
+    }
+    //Skrur av animasjonen og bildet til kortene
+    function removeAttack(){
+        document.getElementById("playerAttackImage").src = '';
+        attackAnimation.style = 'position: absolute;right: 0;height: 200px;'
+    }
+    //Skrur av animasjonen og bildet til kortene
+    function removeRecharge(){
+        document.getElementById("playerImage").src = char;
+    }
+
+    //test();
+    printCards();
+    document.getElementById("playerImage").src = char;
+    console.log(char);
+
+    //Spillerens bevegelse (gynging fram og tilbake)
+    function wobble(){
+        var animationDelay = 1000;
+        document.getElementById('playerImage').style.animation =animationDelay+'ms wobble infinite';}
+        wobble();
+
+        //Når spilleren vinner
+        function win(){
+        window.location.href = 'win.html';
+    }
+
+    //Sender spilleren taper
+    function lose(){
+        window.location.href = 'gameover.html';
+    }
+ 
+    function enemyHitEffect(){
+        document.getElementById('enemyImage').style.filter = "invert(100%)";
+        setTimeout(enemyRecov,100)
+    }
+    function enemyRecov(){
+        document.getElementById('enemyImage').style.filter = "invert(0%)";
+    }
+
+    //Gir spilleren stamina i bytte mot liv
+    function skipTurn(){
+        if(playerStamina<100){
+            playerStamina = playerStamina+20;
+            playerStaminaBar.style.width = playerStamina+'%';
+            hit(15);
+        }else if(playerStamina>80)
+            playerStamina = 100;
+            playerStaminaBar.style.width = playerStamina+'%';
+            hit(15);
+
+    }
+
+    //skjekker fiendens liv
+    function checkEnemyHealth(){
+        if(enemyHP>100){
+            enemyHP=100;
+            enemyHealthBar.style.width = enemyHP+'%';
+            document.getElementById('enemyHP').innerHTML = enemyHP;
+        }
+    }
+    //skjekker spillerens stamina
+    function checkPlayerStamina(){
+        if(playerStamina>100){
+            playerStamina=100;
+            playerStaminaBar.style.width = playerStamina+'%';
+        }
+    }
+
+    </script>
+    <script>
+    //Howler library til lyder
+    var buttonClick= new Howl({
+    src:["buttonPress.mp3"],
+    volume: 0.1
+    });
+    var battleSong= new Howl({
+    src:["jojoTheme.mp3"],
+    volume: 0.05,
+    loop: true
+    });
+    var cardFly= new Howl({
+    src:["swoosh.mp3"],
+    volume: 0.5,
+    });
+    var waaDeath= new Howl({
+    src:["waa.mp3"],
+    volume: 0.1,
+    });
+    var robDeath= new Howl({
+    src:["robDeath.mp3"],
+    volume: 0.2,
+    });
+    var recharge= new Howl({
+    src:["shield.mp3"],
+    volume: 0.3,
+    });
+    </script>
+</html>
